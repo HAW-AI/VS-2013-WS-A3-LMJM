@@ -64,7 +64,7 @@ public class ObjectBroker {
             try {
                 while (running) {
                     Socket socket = serverSocket.accept();
-                    new RequestHandler(socket, nameService).start();
+                    new MethodRequestHandler(socket, nameService).start();
                 }
                 serverSocket.close();
             } catch (IOException e) {

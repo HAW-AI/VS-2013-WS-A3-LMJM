@@ -7,11 +7,11 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
-class RequestHandler extends Thread {
+class MethodRequestHandler extends Thread {
     private final Socket socket;
     private final NameServiceImpl nameService;
 
-    public RequestHandler(Socket socket, NameServiceImpl nameService) {
+    public MethodRequestHandler(Socket socket, NameServiceImpl nameService) {
         this.socket = socket;
         this.nameService = nameService;
     }
