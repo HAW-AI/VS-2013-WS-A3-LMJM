@@ -10,4 +10,12 @@ class Response implements Serializable {
         this.payload = payload;
         this.exception = exception;
     }
+
+    Object getPayload() {
+        return payload;
+    }
+
+    Exception getException() {
+        return exception;
+    }
 }

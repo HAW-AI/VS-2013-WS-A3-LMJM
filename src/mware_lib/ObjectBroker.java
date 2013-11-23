@@ -24,11 +24,11 @@ public class ObjectBroker {
     /**
      * Initializes the ObjectBroker / creates the local NameService
      *
-     * @param serviceName hostname or IP of Nameservice
+     * @param host hostname or IP of Nameservice
      * @param port        port NameService is listening at
      * @return an ObjectBroker Interface to Nameservice
      */
-    public static ObjectBroker init(String serviceName, int port) {
+    public static ObjectBroker init(String host, int port) {
         // TODO: implement this
         return null;
     }
