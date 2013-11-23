@@ -19,7 +19,7 @@ class Request {
             this.handle = split[1];
             this.host = null;
             this.port = 0;
-        } else if (requestString.matches("^[a-zA-z]+![a-zA-z]+:[a-zA-z]+:[1-9][0-9]+$")) {
+        } else if (requestString.matches("^[a-zA-z]+![a-zA-z]+:[\\.0-9a-zA-z]+:[1-9][0-9]+$")) {
             String[] split = requestString.split("!");
             String[] arguments = split[1].split(":");
             this.command = split[0];

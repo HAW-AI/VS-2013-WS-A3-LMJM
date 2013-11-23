@@ -33,13 +33,13 @@ public class NameService {
         public void run() {
             try {
                 ServerSocket serverSocket = new ServerSocket(this.port);
-                System.out.format("global NameService listening on %s", serverSocket.getLocalSocketAddress());
+                System.out.println(String.format("global NameService listening on %s", serverSocket.getLocalSocketAddress()));
                 while (true) {
                     Socket socket = serverSocket.accept();
                     new RequestHandler(NameService.this, socket).start();
                 }
             } catch (IOException e) {
-                System.err.println("global NameService: Error starting server socket.");
+                System.err.println("Error starting server socket.");
                 e.printStackTrace();
             }
         }

@@ -21,6 +21,8 @@ class RequestHandler extends Thread {
         String input = readFromSocket();
         Request request = new Request(input);
 
+        System.out.println(String.format("incoming \"%s\"", input));
+
         if (request.isValid()) {
             respondToRequest(request);
         } else {
@@ -35,14 +37,15 @@ class RequestHandler extends Thread {
     }
 
     private void respondToRequest(Request request) {
-        System.out.format("handling request %s from %s", request, this.socket.getLocalSocketAddress());
         if (request.getCommand().equals("rebind")) {
+            System.out.println(String.format("handling request %s from %s:%d", request, request.getHost(), request.getPort()));
             Reference reference = new Reference(request.getHost(), request.getPort());
             this.nameService.rebind(request.getHandle(), reference);
             writeToSocket(String.format("success!%s", request.getHandle()));
         }
 
         if (request.getCommand().equals("resolve")) {
+            System.out.println(String.format("handling request %s", request));
             Reference reference = this.nameService.resolve(request.getHandle());
             if (reference != null)
                 writeToSocket(String.format("success!%s", reference.toString()));
@@ -59,7 +62,7 @@ class RequestHandler extends Thread {
             BufferedReader buffer = new BufferedReader(in);
             result = buffer.readLine();
         } catch (IOException e) {
-            System.err.println("global NameService: Error reading from incoming socket.");
+            System.err.println("Error reading from socket.");
             e.printStackTrace();
         }
 
@@ -69,9 +72,9 @@ class RequestHandler extends Thread {
     private void writeToSocket(String s) {
         try {
             OutputStream out = this.socket.getOutputStream();
-            out.write(s.getBytes());
+            out.write((s + "\n").getBytes());
         } catch (IOException e) {
-            System.err.println("global NameService: Error writing to incoming socket.");
+            System.err.println("Error writing to socket.");
             e.printStackTrace();
         }
     }
