@@ -32,8 +32,9 @@ class NameServiceImpl extends NameService {
     }
 
     @Override
-    public void rebind(Object servant, String name) {
+    public synchronized void rebind(Object servant, String name) {
         this.registry.put(name, servant);
+
         try {
             Socket socket = new Socket(this.nsHost, this.nsPort);
             writeToSocket(socket, String.format("rebind!%s:%s:%d\n", name,
@@ -52,7 +53,7 @@ class NameServiceImpl extends NameService {
     }
 
     @Override
-    public Object resolve(String name) {
+    public synchronized Object resolve(String name) {
         Object result = null;
 
         if (this.registry.containsKey(name)) {

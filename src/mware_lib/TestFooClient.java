@@ -5,8 +5,9 @@ public class TestFooClient {
         ObjectBroker ob = ObjectBroker.init("localhost", 9876);
         NameService ns = ob.getNameService();
 
-
         Object foo = ns.resolve("foo");
         System.out.println("foo = " + foo);
+
+        ob.shutdown();
     }
 }

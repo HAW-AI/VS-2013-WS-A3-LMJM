@@ -1,8 +1,5 @@
 package mware_lib;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class TestFooServer {
     public static void main(String[] args) {
         ObjectBroker ob = ObjectBroker.init("localhost", 9876);
@@ -13,5 +10,8 @@ public class TestFooServer {
 
         System.out.println("sending bind");
         ns.rebind(foo, "foo");
+
+        Object result = ns.resolve("foo");
+        System.out.println("foo = " + result);
     }
 }
