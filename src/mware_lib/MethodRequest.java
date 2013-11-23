@@ -4,14 +4,15 @@ import java.io.Serializable;
 
 class MethodRequest implements Serializable {
     private final String target;
-    private final String type;
     private final String method;
+
+    private final Class[] types;
     private final Object[] arguments;
 
-    public MethodRequest(String target, String type, String method, Object[] arguments) {
+    public MethodRequest(String target, String method, Class[] types, Object[] arguments) {
         this.target = target;
-        this.type = type;
         this.method = method;
+        this.types = types;
         this.arguments = arguments;
     }
 
@@ -19,12 +20,12 @@ class MethodRequest implements Serializable {
         return target;
     }
 
-    String getType() {
-        return type;
-    }
-
     String getMethod() {
         return method;
+    }
+
+    Class[] getTypes() {
+        return types;
     }
 
     Object[] getArguments() {

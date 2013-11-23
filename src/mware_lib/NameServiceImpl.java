@@ -1,7 +1,9 @@
 package mware_lib;
 
-import java.io.*;
-import java.net.ServerSocket;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,24 +13,16 @@ class NameServiceImpl extends NameService {
     private final String nsHost;
     private final int nsPort;
 
-    private ServerSocket serverSocket = null;
-    private boolean running = true;
+    private final String obHost;
+    private final int obPort;
 
     private final Map<String, Object> registry = new HashMap<String, Object>();
 
-    NameServiceImpl(String nsHost, int nsPort) {
+    NameServiceImpl(String nsHost, int nsPort, String obHost, int obPort) {
         this.nsHost = nsHost;
         this.nsPort = nsPort;
-
-        try {
-            this.serverSocket = new ServerSocket(0);
-            System.out.println(String.format("local NameService listening on %s", serverSocket.getLocalSocketAddress()));
-            new NameServiceThread().start();
-        } catch (IOException e) {
-            System.err.println("Error starting server socket.");
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
+        this.obHost = obHost;
+        this.obPort = obPort;
     }
 
     @Override
@@ -37,8 +31,7 @@ class NameServiceImpl extends NameService {
 
         try {
             Socket socket = new Socket(this.nsHost, this.nsPort);
-            writeToSocket(socket, String.format("rebind!%s:%s:%d\n", name,
-                    this.serverSocket.getInetAddress().getHostAddress(), this.serverSocket.getLocalPort()));
+            writeToSocket(socket, String.format("rebind!%s:%s:%d\n", name, this.obHost, this.obPort));
 
             String[] input = readFromSocket(socket).split("!");
             if (input[0].equals("success")) {
@@ -52,8 +45,12 @@ class NameServiceImpl extends NameService {
         }
     }
 
+    synchronized Object retrieve(String name) {
+        return this.registry.get(name);
+    }
+
     @Override
-    public synchronized Object resolve(String name) {
+    public Object resolve(String name) {
         Object result = null;
 
         try {
@@ -74,10 +71,6 @@ class NameServiceImpl extends NameService {
         }
 
         return result;
-    }
-
-    void shutDown() {
-        this.running = false;
     }
 
     private int getNsPort() {
@@ -114,18 +107,4 @@ class NameServiceImpl extends NameService {
     }
 
 
-    private class NameServiceThread extends Thread {
-        @Override
-        public void run() {
-            try {
-                while (running) {
-                    Socket socket = serverSocket.accept();
-                }
-                serverSocket.close();
-            } catch (IOException e) {
-                System.err.println("Error accepting connections on server socket.");
-                e.printStackTrace();
-            }
-        }
-    }
 }

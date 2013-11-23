@@ -2,7 +2,7 @@ package mware_lib;
 
 import java.io.Serializable;
 
-class MethodResponse implements Serializable {
+public class MethodResponse implements Serializable {
     public final Object payload;
     public final Exception exception;
 
@@ -11,11 +11,11 @@ class MethodResponse implements Serializable {
         this.exception = exception;
     }
 
-    Object getPayload() {
+    public Object getPayload() {
         return payload;
     }
 
-    Exception getException() {
+    public Exception getException() {
         return exception;
     }
 }

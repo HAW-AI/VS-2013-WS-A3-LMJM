@@ -9,12 +9,10 @@ public class TestFooServer {
         NameService ns = ob.getNameService();
 
         System.out.println("new object");
-        Object foo = new Object();
+        Object foo = new FancyManager();
 
         System.out.println("sending bind");
         ns.rebind(foo, "foo");
 
-        Object result = ns.resolve("foo");
-        System.out.println("foo = " + result);
     }
 }
