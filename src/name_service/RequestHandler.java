@@ -9,10 +9,10 @@ import java.net.Socket;
 class RequestHandler extends Thread {
 
     private final Socket socket;
-    private final NameService nameService;
+    private final GlobalNameService globalNameService;
 
-    RequestHandler(NameService nameService, Socket socket) {
-        this.nameService = nameService;
+    RequestHandler(GlobalNameService globalNameService, Socket socket) {
+        this.globalNameService = globalNameService;
         this.socket = socket;
     }
 
@@ -32,7 +32,7 @@ class RequestHandler extends Thread {
         try {
             this.socket.close();
         } catch (IOException e) {
-            System.err.println("global NameService: Error closing socket.");
+            System.err.println("global GlobalNameService: Error closing socket.");
         }
     }
 
@@ -40,13 +40,13 @@ class RequestHandler extends Thread {
         if (request.getCommand().equals("rebind")) {
             System.out.println(String.format("handling request %s from %s:%d", request, request.getHost(), request.getPort()));
             Reference reference = new Reference(request.getHost(), request.getPort());
-            this.nameService.rebind(request.getHandle(), reference);
+            this.globalNameService.rebind(request.getHandle(), reference);
             writeToSocket(String.format("success!%s", request.getHandle()));
         }
 
         if (request.getCommand().equals("resolve")) {
             System.out.println(String.format("handling request %s", request));
-            Reference reference = this.nameService.resolve(request.getHandle());
+            Reference reference = this.globalNameService.resolve(request.getHandle());
             if (reference != null)
                 writeToSocket(String.format("success!%s", reference.toString()));
             else

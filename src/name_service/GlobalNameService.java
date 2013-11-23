@@ -6,11 +6,11 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NameService {
+public class GlobalNameService {
 
     private Map<String, Reference> registry = new HashMap<String, Reference>();
 
-    public NameService(int port) {
+    public GlobalNameService(int port) {
         new NameServiceThread(port).start();
     }
 
@@ -33,10 +33,10 @@ public class NameService {
         public void run() {
             try {
                 ServerSocket serverSocket = new ServerSocket(this.port);
-                System.out.println(String.format("global NameService listening on %s", serverSocket.getLocalSocketAddress()));
+                System.out.println(String.format("global GlobalNameService listening on %s", serverSocket.getLocalSocketAddress()));
                 while (true) {
                     Socket socket = serverSocket.accept();
-                    new RequestHandler(NameService.this, socket).start();
+                    new RequestHandler(GlobalNameService.this, socket).start();
                 }
             } catch (IOException e) {
                 System.err.println("Error starting server socket.");
@@ -46,6 +46,6 @@ public class NameService {
     }
 
     public static void main(String[] args) {
-        new NameService(9876);
+        new GlobalNameService(9876);
     }
 }
