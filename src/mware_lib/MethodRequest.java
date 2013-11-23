@@ -2,13 +2,13 @@ package mware_lib;
 
 import java.io.Serializable;
 
-class Request implements Serializable {
+class MethodRequest implements Serializable {
     private final String target;
     private final String type;
     private final String method;
     private final Object[] arguments;
 
-    public Request(String target, String type, String method, Object[] arguments) {
+    public MethodRequest(String target, String type, String method, Object[] arguments) {
         this.target = target;
         this.type = type;
         this.method = method;
