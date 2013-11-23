@@ -3,6 +3,7 @@ package mware_lib;
 import java.io.Serializable;
 
 class MethodRequest implements Serializable {
+
     private final String target;
     private final String method;
 

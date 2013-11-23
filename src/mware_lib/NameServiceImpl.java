@@ -73,14 +73,6 @@ class NameServiceImpl extends NameService {
         return result;
     }
 
-    private int getNsPort() {
-        return this.nsPort;
-    }
-
-    private String getNsHost() {
-        return this.nsHost;
-    }
-
     private String readFromSocket(Socket socket) {
         String result = "";
 
