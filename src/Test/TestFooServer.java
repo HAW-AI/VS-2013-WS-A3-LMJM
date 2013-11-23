@@ -1,4 +1,7 @@
-package mware_lib;
+package Test;
+
+import mware_lib.NameService;
+import mware_lib.ObjectBroker;
 
 public class TestFooServer {
     public static void main(String[] args) {
