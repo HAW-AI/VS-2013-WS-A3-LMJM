@@ -48,7 +48,7 @@ class RequestHandler extends Thread {
             System.out.println(String.format("handling request %s", request));
             Reference reference = this.globalNameService.resolve(request.getHandle());
             if (reference != null)
-                writeToSocket(String.format("success!%s", reference.toString()));
+                writeToSocket(String.format("success!%s", reference));
             else
                 writeToSocket("error!handle_not_found");
         }

@@ -56,24 +56,21 @@ class NameServiceImpl extends NameService {
     public synchronized Object resolve(String name) {
         Object result = null;
 
-        if (this.registry.containsKey(name)) {
-            result = this.registry.get(name);
-        } else {
-            try {
-                Socket socket = new Socket(this.nsHost, this.nsPort);
-                writeToSocket(socket, String.format("resolve!%s", name));
-                String[] input = readFromSocket(socket).split("!");
+        try {
+            Socket socket = new Socket(this.nsHost, this.nsPort);
+            writeToSocket(socket, String.format("resolve!%s", name));
+            String[] input = readFromSocket(socket).split("!");
 
-                if (input[0].equals("success")) {
-                    System.out.println(String.format("resolved %s %s", name, input[1]));
-                    result = new Stub(input[1]);
-                } else {
-                    System.err.println(String.format("%s cannot be resolved.\n-> Error: %s", name, input[1]));
-                }
-            } catch (IOException e) {
-                System.err.println("Error connecting to global NameService");
-                e.printStackTrace();
+            if (input[0].equals("success")) {
+                System.out.println(String.format("resolved %s %s", name, input[1]));
+                String[] arguments = input[1].split(":");
+                result = new Stub(name, arguments[0], Integer.parseInt(arguments[1]));
+            } else {
+                System.err.println(String.format("%s cannot be resolved.\n-> Error: %s", name, input[1]));
             }
+        } catch (IOException e) {
+            System.err.println("Error connecting to global NameService");
+            e.printStackTrace();
         }
 
         return result;
