@@ -5,12 +5,14 @@ package mware_lib;
  * Singleton
  */
 public class ObjectBroker {
+
+    private final NameServiceImpl nameService;
+
     /**
      * @return an Implementation for a local NameService
      */
     public NameService getNameService() {
-        // TODO: implement this
-        return null;
+        return this.nameService;
     }
 
     /**
@@ -18,7 +20,11 @@ public class ObjectBroker {
      * terminates process
      */
     public void shutdown() {
-        // TODO: implement this
+        this.nameService.shutDown();
+    }
+
+    private ObjectBroker(String host, int port) {
+        this.nameService = new NameServiceImpl(host, port);
     }
 
     /**
@@ -29,7 +35,6 @@ public class ObjectBroker {
      * @return an ObjectBroker Interface to Nameservice
      */
     public static ObjectBroker init(String host, int port) {
-        // TODO: implement this
-        return null;
+        return new ObjectBroker(host, port);
     }
 }
