@@ -13,13 +13,14 @@ class Request {
     private final List<String> validCommands = Arrays.asList(new String[]{"rebind", "resolve"});
 
     Request(String requestString) {
-        if (requestString.matches("^[a-zA-z]+![a-zA-z]+$")) {
+        System.out.println("Request: " + requestString);
+        if (requestString.matches("^[a-zA-z]+![a-zA-z0-9-]+$")) {
             String[] split = requestString.split("!");
             this.command = split[0];
             this.handle = split[1];
             this.host = null;
             this.port = 0;
-        } else if (requestString.matches("^[a-zA-z]+![a-zA-z]+:[\\.0-9a-zA-z]+:[1-9][0-9]+$")) {
+        } else if (requestString.matches("^[a-zA-z]+![a-zA-z0-9-]+:[\\.0-9a-zA-z]+:[1-9][0-9]+$")) {
             String[] split = requestString.split("!");
             String[] arguments = split[1].split(":");
             this.command = split[0];
