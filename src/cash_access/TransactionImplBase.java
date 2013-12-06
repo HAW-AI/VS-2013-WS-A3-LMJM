@@ -11,6 +11,6 @@ public abstract class TransactionImplBase {
             throws InvalidParamException;
 
     public static TransactionImplBase narrowCast(Object gor) {
-        return new RemoteTranscationImpl(gor);
+        return new RemoteTransactionImpl(gor);
     }
 }

@@ -23,21 +23,6 @@ class MethodRequestHandler extends Thread {
             MethodRequest request = readFromSocket(this.socket);
             Object callee = this.nameService.retrieve(request.getTarget());
 
-            //For debug
-            for(Method m : callee.getClass().getMethods())
-            {
-                String name = m.getName();
-                Class<?>[] params = m.getParameterTypes();
-
-                System.out.print(name+"(");
-
-                for(Class<?> c : params)
-                {
-                    System.out.print(c.getName() + ", ");
-                }
-                System.out.println(")");
-            }
-
             Method method = callee.getClass().getMethod(request.getMethod(), request.getTypes());
             Object result = method.invoke(callee, request.getArguments());
 
