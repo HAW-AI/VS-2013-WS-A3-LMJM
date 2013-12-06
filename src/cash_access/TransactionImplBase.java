@@ -10,8 +10,7 @@ public abstract class TransactionImplBase {
     public abstract double getBalance(String accountId)
             throws InvalidParamException;
 
-    public static TransactionImplBase narrowCast(Object o) {
-        // TODO: implement this
-        return null;
+    public static TransactionImplBase narrowCast(Object gor) {
+        return new RemoteTranscationImpl(gor);
     }
 }
