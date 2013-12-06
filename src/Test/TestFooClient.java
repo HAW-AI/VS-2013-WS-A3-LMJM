@@ -16,7 +16,7 @@ public class TestFooClient {
         new FooThread(ns, "thread1").run();
         new FooThread(ns, "thread2").run();
 
-        ob.shutdown();
+        ob.shutDown();
     }
 
     class FooThread extends Thread {

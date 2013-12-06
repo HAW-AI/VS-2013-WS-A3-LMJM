@@ -27,7 +27,7 @@ public class ObjectBroker {
      * shuts down the process, the OjectBroker is running in
      * terminates process
      */
-    public void shutdown() {
+    public void shutDown() {
         this.running = false;
     }
 
