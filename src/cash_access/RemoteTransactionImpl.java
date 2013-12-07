@@ -3,8 +3,7 @@ package cash_access;
 import mware_lib.MethodResponse;
 import mware_lib.Stub;
 
-public class RemoteTransactionImpl extends TransactionImplBase
-{
+public class RemoteTransactionImpl extends TransactionImplBase {
     private final Stub stub;
 
     public RemoteTransactionImpl(Object stub) {
@@ -21,8 +20,14 @@ public class RemoteTransactionImpl extends TransactionImplBase
                 new Class[]{String.class, double.class},
                 new Object[]{accountId, amount});
 
-        if (response.getException() != null)
-            throw new RuntimeException("Remote Exception", response.getException());
+        Exception e = response.getException();
+        if (e != null) {
+            if (e instanceof InvalidParamException) {
+                throw (InvalidParamException) e;
+            } else {
+                throw new RuntimeException("Remote Exception", e);
+            }
+        }
     }
 
     @Override
@@ -31,8 +36,16 @@ public class RemoteTransactionImpl extends TransactionImplBase
                 new Class[]{String.class, double.class},
                 new Object[]{accountId, amount});
 
-        if (response.getException() != null)
-            throw new RuntimeException("Remote Exception", response.getException());
+        Exception e = response.getException();
+        if (e != null) {
+            if (e instanceof InvalidParamException) {
+                throw (InvalidParamException) e;
+            } else if (e instanceof OverdraftException) {
+                throw (OverdraftException) e;
+            } else {
+                throw new RuntimeException("Remote Exception", e);
+            }
+        }
     }
 
     @Override
@@ -41,8 +54,14 @@ public class RemoteTransactionImpl extends TransactionImplBase
                 new Class[]{String.class},
                 new Object[]{accountId});
 
-        if (response.getException() != null)
-            throw new RuntimeException("Remote Exception", response.getException());
+        Exception e = response.getException();
+        if (e != null) {
+            if (e instanceof InvalidParamException) {
+                throw (InvalidParamException) e;
+            } else {
+                throw new RuntimeException("Remote Exception", e);
+            }
+        }
 
         return Double.parseDouble(response.getPayload().toString());
     }

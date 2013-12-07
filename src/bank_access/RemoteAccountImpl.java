@@ -4,8 +4,7 @@ package bank_access;
 import mware_lib.MethodResponse;
 import mware_lib.Stub;
 
-public class RemoteAccountImpl extends AccountImplBase
-{
+public class RemoteAccountImpl extends AccountImplBase {
     private final Stub stub;
 
     public RemoteAccountImpl(Object stub) {
@@ -16,27 +15,24 @@ public class RemoteAccountImpl extends AccountImplBase
         }
     }
 
-
     @Override
-    public void transfer(double amount) throws OverdraftException
-    {
+    public void transfer(double amount) throws OverdraftException {
         MethodResponse response = this.stub.sendMethodRequest("transfer",
                 new Class[]{double.class},
                 new Object[]{amount});
 
-        if (response.getException() != null)
-            throw new RuntimeException("Remote Exception", response.getException());
+        Exception e = response.getException();
+        if (e != null) throw new RuntimeException("Remote Exception", e);
     }
 
     @Override
-    public double getBalance()
-    {
+    public double getBalance() {
         MethodResponse response = this.stub.sendMethodRequest("getBalance",
                 new Class[]{},
                 new Object[]{});
 
-        if (response.getException() != null)
-            throw new RuntimeException("Remote Exception", response.getException());
+        Exception e = response.getException();
+        if (e != null) throw new RuntimeException("Remote Exception", e);
 
         return Double.parseDouble(response.getPayload().toString());
     }
