@@ -39,7 +39,7 @@ public class Stub {
         return result;
     }
 
-    public static MethodResponse readFromSocket(Socket socket) {
+    private static MethodResponse readFromSocket(Socket socket) {
         MethodResponse response = null;
 
         try {
@@ -56,7 +56,7 @@ public class Stub {
         return response;
     }
 
-    public static void writeToSocket(Socket socket, MethodRequest request) {
+    private static void writeToSocket(Socket socket, MethodRequest request) {
         try {
             ObjectOutput out = new ObjectOutputStream(socket.getOutputStream());
             out.writeObject(request);
