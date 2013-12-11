@@ -25,6 +25,7 @@ class MethodRequestHandler extends Thread {
             Object callee = this.nameService.retrieve(request.getTarget());
 
             Method method = callee.getClass().getMethod(request.getMethod(), request.getTypes());
+            method.setAccessible(true);
             Object result = method.invoke(callee, request.getArguments());
 
             response = new MethodResponse(result, null);
