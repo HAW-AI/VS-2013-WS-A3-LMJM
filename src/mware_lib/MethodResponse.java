@@ -5,18 +5,18 @@ import java.util.Arrays;
 
 public class MethodResponse implements Serializable {
     public final Object payload;
-    public final Exception exception;
+    public final Throwable throwable;
 
-    public MethodResponse(Object payload, Exception exception) {
+    public MethodResponse(Object payload, Throwable throwable) {
         this.payload = payload;
-        this.exception = exception;
+        this.throwable = throwable;
     }
 
     public Object getPayload() {
         return payload;
     }
 
-    public Exception getException() {
-        return exception;
+    public Throwable getThrowable() {
+        return throwable;
     }
 }

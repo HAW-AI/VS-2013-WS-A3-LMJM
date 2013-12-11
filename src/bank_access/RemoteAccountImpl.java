@@ -21,8 +21,14 @@ public class RemoteAccountImpl extends AccountImplBase {
                 new Class[]{double.class},
                 new Object[]{amount});
 
-        Exception e = response.getException();
-        if (e != null) throw new RuntimeException("Remote Exception", e);
+        Throwable t = response.getThrowable();
+        if (t != null) {
+            if (t.getCause() instanceof OverdraftException) {
+                throw (OverdraftException) t;
+            } else {
+                throw new RuntimeException("Remote Exception", t);
+            }
+        }
     }
 
     @Override
@@ -31,8 +37,8 @@ public class RemoteAccountImpl extends AccountImplBase {
                 new Class[]{},
                 new Object[]{});
 
-        Exception e = response.getException();
-        if (e != null) throw new RuntimeException("Remote Exception", e);
+        Throwable t = response.getThrowable();
+        if (t != null) throw new RuntimeException("Remote Exception", t);
 
         return Double.parseDouble(response.getPayload().toString());
     }

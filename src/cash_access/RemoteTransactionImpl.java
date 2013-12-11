@@ -20,12 +20,12 @@ public class RemoteTransactionImpl extends TransactionImplBase {
                 new Class[]{String.class, double.class},
                 new Object[]{accountId, amount});
 
-        Exception e = response.getException();
-        if (e != null) {
-            if (e instanceof InvalidParamException) {
-                throw (InvalidParamException) e;
+        Throwable t = response.getThrowable();
+        if (t != null) {
+            if (t.getCause() instanceof InvalidParamException) {
+                throw (InvalidParamException) t;
             } else {
-                throw new RuntimeException("Remote Exception", e);
+                throw new RuntimeException("Remote Exception", t);
             }
         }
     }
@@ -36,14 +36,14 @@ public class RemoteTransactionImpl extends TransactionImplBase {
                 new Class[]{String.class, double.class},
                 new Object[]{accountId, amount});
 
-        Exception e = response.getException();
-        if (e != null) {
-            if (e instanceof InvalidParamException) {
-                throw (InvalidParamException) e;
-            } else if (e instanceof OverdraftException) {
-                throw (OverdraftException) e;
+        Throwable t = response.getThrowable();
+        if (t != null) {
+            if (t.getCause() instanceof InvalidParamException) {
+                throw (InvalidParamException) t;
+            } else if (t.getCause() instanceof OverdraftException) {
+                throw (OverdraftException) t;
             } else {
-                throw new RuntimeException("Remote Exception", e);
+                throw new RuntimeException("Remote Exception", t);
             }
         }
     }
@@ -54,12 +54,12 @@ public class RemoteTransactionImpl extends TransactionImplBase {
                 new Class[]{String.class},
                 new Object[]{accountId});
 
-        Exception e = response.getException();
-        if (e != null) {
-            if (e instanceof InvalidParamException) {
-                throw (InvalidParamException) e;
+        Throwable t = response.getThrowable();
+        if (t != null) {
+            if (t.getCause() instanceof InvalidParamException) {
+                throw (InvalidParamException) t;
             } else {
-                throw new RuntimeException("Remote Exception", e);
+                throw new RuntimeException("Remote Exception", t);
             }
         }
 

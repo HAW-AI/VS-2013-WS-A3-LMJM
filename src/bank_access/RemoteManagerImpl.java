@@ -21,8 +21,8 @@ public class RemoteManagerImpl extends ManagerImplBase {
                 new Class[]{String.class, String.class},
                 new Object[]{owner, branch});
 
-        Exception e = response.getException();
-        if (e != null) throw new RuntimeException("Remote Exception", e);
+        Throwable t = response.getThrowable();
+        if (t != null) throw new RuntimeException("Remote Exception", t);
 
         return (String) response.getPayload();
     }

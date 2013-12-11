@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
@@ -27,6 +28,8 @@ class MethodRequestHandler extends Thread {
             Object result = method.invoke(callee, request.getArguments());
 
             response = new MethodResponse(result, null);
+        } catch (InvocationTargetException e) {
+            response = new MethodResponse(null, e.getTargetException());
         } catch (Exception e) {
             response = new MethodResponse(null, e);
         }
