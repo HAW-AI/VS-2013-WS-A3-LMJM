@@ -22,8 +22,8 @@ public class RemoteTransactionImpl extends TransactionImplBase {
 
         Throwable t = response.getThrowable();
         if (t != null) {
-            if (t.getCause() instanceof InvalidParamException) {
-                throw (InvalidParamException) t;
+            if (InvalidParamException.check(t)) {
+                throw new InvalidParamException(t.getMessage());
             } else {
                 throw new RuntimeException("Remote Exception", t);
             }
@@ -38,10 +38,10 @@ public class RemoteTransactionImpl extends TransactionImplBase {
 
         Throwable t = response.getThrowable();
         if (t != null) {
-            if (t.getCause() instanceof InvalidParamException) {
-                throw (InvalidParamException) t;
-            } else if (t.getCause() instanceof OverdraftException) {
-                throw (OverdraftException) t;
+            if (InvalidParamException.check(t)) {
+                throw new InvalidParamException(t.getMessage());
+            } else if (OverdraftException.check(t)) {
+                throw new OverdraftException(t.getMessage());
             } else {
                 throw new RuntimeException("Remote Exception", t);
             }
@@ -56,8 +56,8 @@ public class RemoteTransactionImpl extends TransactionImplBase {
 
         Throwable t = response.getThrowable();
         if (t != null) {
-            if (t.getCause() instanceof InvalidParamException) {
-                throw (InvalidParamException) t;
+            if (InvalidParamException.check(t)) {
+                throw new InvalidParamException(t.getMessage());
             } else {
                 throw new RuntimeException("Remote Exception", t);
             }

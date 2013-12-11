@@ -23,8 +23,8 @@ public class RemoteAccountImpl extends AccountImplBase {
 
         Throwable t = response.getThrowable();
         if (t != null) {
-            if (t.getCause() instanceof OverdraftException) {
-                throw (OverdraftException) t;
+            if (OverdraftException.check(t)) {
+                throw new OverdraftException(t.getMessage());
             } else {
                 throw new RuntimeException("Remote Exception", t);
             }

@@ -1,6 +1,7 @@
 package Test;
 
-import bank_access.ManagerImplBase;
+import bank_access.AccountImplBase;
+import bank_access.OverdraftException;
 import mware_lib.NameService;
 import mware_lib.ObjectBroker;
 
@@ -31,8 +32,12 @@ public class TestFooClient {
         @Override
         public void run() {
             Object gor = this.ns.resolve("foo");
-            ManagerImplBase manager = ManagerImplBase.narrowCast(gor);
-            System.out.println(manager.createAccount(this.name, "bar"));
+            AccountImplBase manager = AccountImplBase.narrowCast(gor);
+            try {
+                manager.transfer(99);
+            } catch (OverdraftException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

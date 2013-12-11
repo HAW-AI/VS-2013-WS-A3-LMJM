@@ -8,7 +8,7 @@ public class TestFooServer {
         ObjectBroker ob = ObjectBroker.init("localhost", 9876);
         NameService ns = ob.getNameService();
 
-        Object foo = new FancyManager();
+        Object foo = new FancyAccount();
         ns.rebind(foo, "foo");
     }
 }
